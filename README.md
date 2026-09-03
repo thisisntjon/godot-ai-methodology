@@ -65,11 +65,11 @@ and **ComfyUI** for asset generation.
 
 ## The StS2 through-line
 
-These are the StS2-validated patterns the set is built around — each is a
+These are the StS2-observed patterns the set is built around — each is a
 documented StS2 trait that doubles as an AI-assisted-dev lever. (Full quotes and
 citations live in `STS2_EVIDENCE.md`.)
 
-| StS2-validated pattern | Why it's an AI lever | Covered in |
+| StS2-observed pattern | Why it's an AI lever | Covered in |
 | --- | --- | --- |
 | **Seeded, segregated RNG** (`Rng`, `PlayerRngSet`, `Rng.Chaotic`, `MegaRandom`/Xoshiro256\*\*) | A run reproduces from a seed, so the agent can reproduce your bug; segregated streams keep behavioral diffs local; cosmetic chaos is quarantined. | [00](00-principles.md) §1, [03](03-techniques.md) §1, [02](02-project-roadmap.md) Phase 0 |
 | **Data-driven Models vs Entities** (`CardModel`/`Cards` vs runtime `Creatures`/`Players`) | New content is a reviewable data row, not new control flow — low blast radius. | [00](00-principles.md), [03](03-techniques.md), [02](02-project-roadmap.md) |
