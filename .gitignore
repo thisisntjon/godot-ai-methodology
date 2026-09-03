@@ -1,0 +1,25 @@
+# Godot editor/import caches (the project-load gate creates these in sample projects)
+.godot/
+*.import
+__gate__.gd
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+.idea/
+
+# Local session artifacts (machine-specific; not part of the doc set)
+artifacts/
+workflow/research/env-probe.md
+workflow/research/existing-skills.md
+
+# Godot-generated UID sidecars in the spike sample projects (created by gate runs)
+workflow/spike/**/*.uid

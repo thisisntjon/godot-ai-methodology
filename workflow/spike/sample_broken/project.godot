@@ -1,0 +1,8 @@
+; Minimal Godot 4.x project — parse-gate spike (BROKEN). resolver.gd references the
+; GateModifier class, but modifier.gd is intentionally ABSENT — a cross-file resolution
+; failure a project-load gate catches but a per-file syntax check can miss.
+config_version=5
+
+[application]
+
+config/name="gate_broken"

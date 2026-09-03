@@ -1,0 +1,6 @@
+; Minimal Godot 4.x project — parse-gate spike (CLEAN). Cross-file class_name resolution.
+config_version=5
+
+[application]
+
+config/name="gate_clean"
