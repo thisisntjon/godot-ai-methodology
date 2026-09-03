@@ -1,48 +1,41 @@
-# AI-Leverageable Game Architecture — A Methodology for Solo Godot Devs
+# Godot AI Methodology
 
-> The front door to a doc set on building shippable Godot 4.x games with an AI
-> coding assistant — grounded in a read-only study of Slay the Spire 2.
+A second-domain application of one thesis: deterministic, observable, testable, modular, data-driven, documented codebases are easier for AI coding systems to modify safely and to verify. Grounded in a read-only study of Slay the Spire 2 (StS2), a shipped Godot game.
 
-## Thesis
+**Status:** PUBLIC methodology; the skills run offline.
 
-The traits that make a game **shippable** are the same traits that make it
-**AI-leverageable**. Determinism, data-driven content, clean seams, composition
-over special-casing, self-play smoke testing, and disciplined documentation are
-not luxuries — they are the substrate that turns an LLM from a plausible-code
-generator into a contributor whose changes you can actually verify. We learned
-this by studying **Slay the Spire 2 (StS2)** read-only: a large, shipped Godot
-game whose architecture, seen through its own published docs, reads like a
-checklist for "how to make a codebase an agent can safely extend."
+**Research question:** What software architecture makes AI-assisted development safer and more verifiable?
 
-## How this was made — sourcing & ethics
+**Sourcing and ethics**
 
-StS2 was studied **only** through the artifacts it plainly ships: its C# XML
-documentation (`sts2.xml`, ~99k lines, about 2,700 documented types) and loose JSON
-manifests in `data_sts2_windows_x86_64/`. Every StS2 claim in this set quotes the
-developers' own `<summary>` doc comments and is cited from the evidence pack at
-`STS2_EVIDENCE.md`.
+- No decompilation. The encrypted `.pck` was never opened.
+- No extracted proprietary assets.
+- No copied source.
+- Observations are based on shipped documentation and manifests, quoted in `STS2_EVIDENCE.md`.
+- Generated examples are original GDScript 4.x.
 
-- **No decompilation.** The encrypted `.pck` (GDPC v3) was never extracted.
-- **No asset extraction.** No sprites, audio, or scene data were pulled.
-- **No copied code.** StS2 is C#/.NET 9 on Godot 4.5.1; there is no source to
-  copy, only documentation summaries. We translate the *patterns* into idiomatic
-  Godot 4.x GDScript. **Every code example in this set is original GDScript.**
+**Verify** (from the repo root; `<proj>` holds a `project.godot`; observed 2026-09-02):
 
-This set is deliberately **project-agnostic and reusable** — adapt it to any
-Godot 4.x game.
-
-## Table of contents
-
-| Doc | What it gives you |
+| Command | Observed tail |
 | --- | --- |
-| [00 — Principles](00-principles.md) | The conceptual backbone: the eight principles that make a codebase both shippable and AI-leverageable, each grounded in StS2 and translated to GDScript. |
-| [01 — Phased Workflow](01-phased-workflow.md) | The per-feature loop with Claude Code: SPEC → PLAN → TESTS (RED) → IMPLEMENT (GREEN) → VERIFY → REVIEW → COMMIT, with copy-paste prompt templates. |
-| [02 — Project Roadmap](02-project-roadmap.md) | A zero-to-ship phase template for a Godot game, where each phase's acceptance criteria double as the agent's definition of done. |
-| [03 — Techniques](03-techniques.md) | The ten load-bearing patterns (seeded RNG, modifier resolver, intent/logic seam, self-play, save migrations…) with runnable GDScript. |
-| [04 — AI Collaboration Patterns](04-ai-collaboration-patterns.md) | How to drive coding agents — context files, plan mode, subagents, small diffs, enforcing the RED phase, keeping the codebase AI-legible. |
-| [05 — Checklists](05-checklists.md) | Copy-paste gates: per-feature, pre-commit, pre-release, an "is my codebase AI-friendly?" audit, and CI setup. Stop-signs you run when the agent says "done." |
-| [06 — The Skill Suite](06-skills.md) | The methodology made executable: three built Claude Code skills (`godot-context`, `godot-scaffold`, `godot-guard`) + a specced gated runtime tier, with how to run and activate them. |
-| [references.md](references.md) | Sourced tool facts: GUT vs gdUnit4, headless/CI commands, Godot MCP, SDD/TDD methodology, ComfyUI asset generation. |
+| `python skills/godot-context/generate_context.py <proj>` | `godot-context: wrote <proj>/CLAUDE.md (engine=4.7.2.stable.steam.ed1daf0bf, language=GDScript, autoloads=0)` |
+| `python skills/godot-scaffold/scaffold.py <proj>` | `godot-scaffold: GATE PASS ... GATE-SUMMARY checked=9 failures=0 (marker=None, exit=0)` |
+| `python skills/godot-guard/guard_check.py <proj>` | `godot-guard: 9 file(s) scanned, 0 findings ... clean.` |
+| `python workflow/spike/godot_gate.py <proj>` | `GATE: exit=0 marker=None -> PASS` |
+
+**Limitations:** one studied game; author-run, not independently reproduced; scaffold and gate need a Godot binary, and only Windows/Steam binary discovery is documented (`$GODOT_BIN`, PATH, Steam path).
+
+**Deeper documentation**
+
+- [00 Principles](00-principles.md): eight principles, StS2-grounded.
+- [01 Phased Workflow](01-phased-workflow.md): the per-feature loop, with prompt templates.
+- [02 Project Roadmap](02-project-roadmap.md): zero-to-ship phases.
+- [03 Techniques](03-techniques.md): ten patterns with runnable GDScript.
+- [04 AI Collaboration Patterns](04-ai-collaboration-patterns.md): driving the agent.
+- [05 Checklists](05-checklists.md): gates to run when the agent says done.
+- [06 Skill Suite](06-skills.md): three built skills, one specced tier.
+- [STS2_EVIDENCE.md](STS2_EVIDENCE.md): the evidence pack.
+- [references.md](references.md): sourced tool facts.
 
 ## How to use this set
 
@@ -93,3 +86,11 @@ citations live in `STS2_EVIDENCE.md`.)
 *Full StS2 provenance for every claim lives in `STS2_EVIDENCE.md` (read-only observations; no decompilation).
 StS2 © Mega Crit; studied here under fair, read-only inspection of shipped
 documentation for the purpose of learning architecture, not reproducing it.*
+
+## Part of the Simone Systems Research program
+
+SEED measures whether agent-driven work constitutes verified progress. BigBoss controls which autonomous actions can occur and preserves human decision authority. The Council tests independent verification through heterogeneous model families. The Bus shows adversarial review terminating a bad architecture before further implementation. Godot Methodology tests whether the same verification principles generalize into software architecture.
+
+[seed-protocol](https://github.com/thisisntjon/seed-protocol) · [thecouncil](https://github.com/thisisntjon/thecouncil) · [bigboss-approval-plane](https://github.com/thisisntjon/bigboss-approval-plane) · [thebus](https://github.com/thisisntjon/thebus) · [simoneresearch.com](https://simoneresearch.com)
+
+Simone Systems Research is founder-led and independent (Jonathan Simone, jon@simoneresearch.com). Principles: Evidence before promotion; Independent verification; Compute must earn its cost; Negative results are retained; Artifacts matter.
